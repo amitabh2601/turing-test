@@ -1,14 +1,11 @@
-import sys
-from src.actions import tap_on
-from src.vision import detect_buttons
-from src.device import take_screenshot
+from src.turing_test_device import TuringTestDevice
 
-if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        label = sys.argv[1]
-        tap_on(label)
-    else:
-        # Debug mode: just show detected buttons
-        take_screenshot()
-        buttons = detect_buttons()
-        print("Detected buttons:", buttons)
+device = TuringTestDevice("android", device_id="emulator-5554")
+device.launch_app("com.google.android.gm")  # Gmail
+
+# Locator-free actions
+device.tap_on("Got It")
+device.tap_on("Add an email address")
+device.tap_on("Google")
+device.enter_text_on("Email or phone", "friend@example.com")
+device.tap_on("Next", timeout=10, interval=0.5)
